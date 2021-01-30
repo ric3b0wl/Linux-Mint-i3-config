@@ -40,10 +40,24 @@ case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
 
+
+
+function __ps1_newline_login {
+  if [[ -z "${PS1_NEWLINE_LOGIN}" ]]; then
+    PS1_NEWLINE_LOGIN=true
+  else
+    printf '\n'
+  fi
+}
+
+PROMPT_COMMAND='__ps1_newline_login'
+export PS1="\[\033[38;5;129m\]\u\[$(tput sgr0)\]@\[$(tput sgr0)\]\[\033[38;5;196m\]\h\[$(tput sgr0)\]:-\\$ \[$(tput sgr0)\]"
+
+
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
-#force_color_prompt=yes
+# force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -93,7 +107,7 @@ alias la='ls -A'
 alias l='ls -CF'
 
 #some other customs alias
-alias i3-window-info='bash /home/sam/.config/i3/i3-get-window-criteria.sh' 
+alias i3-window-info='bash /home/sam/.config/i3/i3-get-window-criteria.sh'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -145,3 +159,20 @@ alias pip=pip3
 alias pycharm=./pycharm-2020.3.2/bin/pycharm.sh
 alias conda-act='conda activate'
 alias conda-deact='conda deactivate'
+
+alias 'ticker-watch'='watch -n 1 -t -c ./Documents/ticker.sh'
+alias mop='./go/src/github.com/mop-tracker/mop/bin/mop'
+
+
+#display setting automation
+#if [ -z `xrandr --query | grep "HDMI-1-1 connected"` | grep "VGA-1-1 connected" ]; then
+#    xrandr --output eDP-1-1 --auto --left-of VGA-1-1 --output VGA-1-1 --auto --primary --left-of HDMI-1-1
+#elif [ -z `xrandr --query | grep "HDMI-1-1 connected"` ]; then
+#    xrandr --output eDP-1-1 --auto --left-of HDMI-1-1
+#elif [ -z `xrandr --query | grep "VGA-1-1 connected"` ]; then
+#    xrandr --output eDP-1-1 --auto --left-of VGA-1-1
+#else
+#    xrandr --output eDP-1-1 --auto --primary \
+#        --output VGA-1-1 --off \
+#        --output HDMI-1-1 --off\
+#fi

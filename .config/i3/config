@@ -19,12 +19,14 @@ exec_always feh --bg-fill /home/sam/Pictures/redbullsparks1.jpg
 #exec --no-startup-id bash /home/sam/.config/i3/i3-battery-popup-master/i3-battery-popup
 exec_always --no-startup-id xfce4-power-manager
 
+#triple monitor settings
+bindsym $super+Shift+Control+Escape exec "xrandr --output eDP-1-1 --auto --left-of VGA-1-1 --output VGA-1-1 --auto --primary --left-of HDMI-1-1"
+bindsym $super+Shift+Escape exec "xrandr --output eDP-1-1 --primary"
+
+
 # start a terminal
 bindsym $super+Return exec i3-sensible-terminal
 bindsym $super+Shift+Return exec cool-retro-term
-
-# start application with shorcut
-bindsym $super+backslash exec thunar
 
 # start dmenu (a program launcher)
 bindsym $super+Shift+d exec "dmenu_run -nf '#AEAEAE' -nb '#4F3879' -sb '#1A1228' -sf '#FFFFFF' -fn 'System San Francisco Display:size=12' -p 'dmenu prompt &gt;'"
@@ -35,46 +37,53 @@ bindsym Print exec gnome-screenshot -i
 bindsym $super+Shift+s exec gnome-screenshot -i
 
 bindsym Shift+Print exec gnome-screenshot -a
-bindsym $super+bracketleft exec gnome-screenshot -a
+bindsym $super+Shift+bracketleft exec gnome-screenshot -a
 
 bindsym Control+Shift+Print exec gnome-screenshot -w
-bindsym $super+bracketright exec gnome-screenshot -w
+bindsym $super+Shift+bracketright exec gnome-screenshot -w
+
+bindsym $super+Shift+p exec gnome-screenshot
 
 
-# Moving workspaces between screens 
-bindsym $super+period move workspace to output right
-bindsym $super+comma move workspace to output left
+# Moving workspaces between screens
+bindsym $super+Shift+period move workspace to output right
+bindsym $super+Shift+comma move workspace to output left
 
 #bindsym $super+l exec i3lock -i /home/sam/Pictures/lockscreen.png
 
 bindsym $super+Shift+l mode "$mode_system"
-    set $mode_system (l)ock, (s)uspend, (r)eboot, sh(u)tdown, log(o)ut, (e)xit
-mode "$mode_system" {
-    
-    bindsym l exec --no-startup-id i3lock -i /home/sam/Pictures/lockscreen.png, mode "default"
-    bindsym s exec --no-startup-id systemctl suspend, mode "default"
-    bindsym r exec --no-startup-id reboot
-    bindsym u exec --no-startup-id shutdown now
-    bindsym o exec --no-startup-id 
-    bindsym e exec --no-startup-id "i3-nagbar -t warning -m 'Really, exit?' -b 'Yes' 'i3-msg exit'", mode "default"
-    # exit system mode: "Enter" or "Escape"
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
+    set $mode_system (l)ock, (s)uspend, (h)ibernate, (r)eboot, l(o)gout, sh(u)tdown
+
+    mode "$mode_system" {
+        bindsym l exec --no-startup-id i3lock -i /home/sam/Pictures/BlancpainGTWorldChallenge.png, mode "default"
+        bindsym s exec --no-startup-id "i3lock -i /home/sam/Pictures/BlancpainGTWorldChallenge.png && systemctl suspend", mode "default"
+        bindsym h exec --no-startup-id "i3lock -i /home/sam/Pictures/BlancpainGTWorldChallenge.png && systemctl hibernate", mode "default"
+        bindsym r exec --no-startup-id reboot, mode "default"
+        bindsym o exec --no-startup-id pkill -KILL -u sam, mode "default"
+        bindsym u exec --no-startup-id "i3-nagbar -t warning -m 'Shutdown, Ru sure?' -b 'Yes' 'shutdown now'", mode "default"
+
+        # exit system mode: "Enter" or "Escape"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
 }
 
-
-bindsym $super+Shift+w exec google-chrome-stable
-bindsym $super+Shift+f exec thunar;workspace 3;focus
-bindsym $super+Shift+g exec geany
+#start application with shortcut
+bindsym $super+Shift+w exec google-chrome-stable;workspace 2;focus
+bindsym $super+Shift+e exec thunar;workspace 3;focus
+bindsym $super+Shift+b exec subl;workspace 4;focus
 
 #change volume
 #bindsym XF86AudioRaiseVolume exec amixer -q set Master 5%+
 #bindsym XF86AudioLowerVolume exec amixer -q set Master 5%-
 #bindsym XF86AudioMute exec amixer set Master toggle
 ###extra
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+
+#bindsym Shift+XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2% && $refresh_i3status
+#bindsym Shift+XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2% && $refresh_i3status
+#bindsym Shift+XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 
 #brighness
 bindsym $super+Home exec brightnessctl s +10%
@@ -113,7 +122,7 @@ bindsym $super+v split v
 bindsym $super+f fullscreen toggle
 
 # change container layout split
-bindsym $super+s layout toggle split
+bindsym $super+l layout toggle split
 
 # toggle tiling / floating
 bindsym $super+space floating toggle
@@ -125,15 +134,15 @@ bindsym $super+Shift+space focus mode_toggle
 # We use variables to avoid repeating the names in multiple places.
 set $ws0 " 0  "
 set $ws1 " 1  "
-set $ws2 " 2  "
-set $ws3 " 3   "
-set $ws4 " 4  "
-set $ws5 " 5  "
+set $ws2 " 2  "
+set $ws3 " 3  "
+set $ws4 " 4  "
+set $ws5 " 5  "
 set $ws6 " 6  "
 set $ws7 " 7  "
-set $ws8 " 8  "
+set $ws8 " 8  "
 set $ws9 " 9  "
-set $ws10 " 10 "
+set $ws10 " 10  "
 
 
 # switch to workspace
@@ -141,7 +150,7 @@ bindsym $super+Tab workspace next
 bindsym $super+Shift+Tab workspace prev
 
 bindsym $super+grave workspace $ws0
-bindsym $super+1 workspace $ws1 
+bindsym $super+1 workspace $ws1
 bindsym $super+2 workspace $ws2
 bindsym $super+3 workspace $ws3
 bindsym $super+4 workspace $ws4
@@ -171,14 +180,16 @@ bindsym $super+Shift+0 move container to workspace number $ws10
 bindsym $super+Shift+r restart
 
 # exit i3
-bindsym $super+Escape exec "i3-nagbar -t warning -m 'Really, exit?' -b 'Yes' 'i3-msg exit'"
+#bindsym $super+Shift+Contral+Escape exec "i3-nagbar -t warning -m 'Really, exit i3?' -b 'Yes' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
+# px for floating windows, ppt for fullscreen
 mode "resize" {
-        bindsym Left resize shrink width 5 px or 5 ppt
-        bindsym Down resize grow height 5 px or 5 ppt
-        bindsym Up resize shrink height 5 px or 5 ppt
-        bindsym Right resize grow width 5 px or 5 ppt
+        bindsym Left resize shrink width 10 px or 1 ppt
+        bindsym Down resize grow height 10 px or 1 ppt
+        bindsym Up resize shrink height 10 px or 1 ppt
+        bindsym Right resize grow width 10 px or 1 ppt
+
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
@@ -187,33 +198,38 @@ bindsym $super+r mode "resize"
 # panel and windows color
 
 # class                 border    bground   text      indicator child_border
-client.focused          #553B81   #34244F   #FFFFFF   #900000   #470047
+client.focused          #553B81   #34244F   #FFFFFF   #cf0000q   #A875FF
 client.focused_inactive #333333   #5F676A   #FFFFFF   #484E50   #5F676A
 client.unfocused        #333333   #222222   #888888   #292D2E   #222222
-client.urgent           #2F343A   #900000   #FFFFFF   #900000   #900000
+client.urgent           #2F343A   #900000   #FFFFFF   #c20000   #c20000
 client.placeholder      #000000   #0C0C0C   #FFFFFF   #000000   #0C0C0C
 client.background       #FFFFFF
 
-bar {
-        colors {
-    background #130A20
-    statusline #000000
-    separator  #FFFFFF
+#exec_always --no-startup-id $HOME/.config/polybar/blocks/launch.sh
 
-    focused_workspace  #9900FF #42007B #FFFFFF
-    active_workspace   #88FF84 #057900 #FFFFFF
-    inactive_workspace #333333 #222222 #888888
-    urgent_workspace   #2F343A #900000 #FFFFFF
-    binding_mode       #6863FF #0800FF #FFFFFF
+bar {
+    font pango:DejaVu Sans Mono, FontAwesome 12
+    position top
+    status_command i3status
+    tray_output primary
+    colors {
+        background #130A20
+        statusline #000000
+        separator  #FFFFFF
+
+        focused_workspace  #de82ff #6c008c #FFFFFF
+        active_workspace   #2d9e29 #046300 #FFFFFF
+        inactive_workspace #333333 #222222 #888888
+        urgent_workspace   #2F343A #900000 #FFFFFF
+        binding_mode       #6863FF #0800FF #FFFFFF
     }
-        status_command i3status
 }
 
 # window rules, you can find the window class using xprop
 for_window [class=".*"] border pixel 2
 
 #floating window when launch
-for_window [class=Viewnior|feh|File-roller|Lxappearance|Pavucontrol|Nm-connection-editor|GitHub-Desktop] floating enable
+for_window [class=Viewnior|feh|File-roller|Lxappearance|Pavucontrol|Nm-connection-editor|GitHub-Desktop|gparted] floating enable
 for_window [title="GitHub Desktop"] floating enable
 
 #zoom stuff
@@ -231,10 +247,9 @@ for_window [class=Code|jetbrains-pycharm] focus
 assign [class=Google-chrome] $ws2
 for_window [class=Google-chrome] focus
 
-assign [class=Geany|Sublime_text] $ws3
-for_window [class=Geany|Sublime_text] focus
+assign [class=Xed] $ws3
+for_window [class=Xed] focus
 
-assign [class=Thunar|File-roller] $ws4
 for_window [class=Thunar|File-roller] focus
 
 assign [title="GitHub Desktop"] $ws6
@@ -243,6 +258,9 @@ for_window [title="GitHub Desktop"] focus
 assign [class=zoom] $ws7
 for_window [class=zoom] focus
 
+assign [Class="Spotify"] $ws7
+for_window [Class="Spotify"] focus
+
 assign [class=TelegramDesktop] $ws9
 for_window [class=TelegramDesktop] focus
 assign [class="Android Messages"] $ws9
@@ -250,5 +268,3 @@ for_window [class="Android Messages"] focus
 
 assign [class=discord] $ws10
 for_window [class=discord] focus
-
-
