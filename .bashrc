@@ -166,7 +166,7 @@ alias mop='./go/src/github.com/mop-tracker/mop/bin/mop'
 
 #display setting automation
 #if [ -z `xrandr --query | grep "HDMI-1-1 connected"` | grep "VGA-1-1 connected" ]; then
-#    xrandr --output eDP-1-1 --auto --left-of VGA-1-1 --output VGA-1-1 --auto --primary --left-of HDMI-1-1
+#    xrandr --output eDP-1-1 --auto --left-of VGA-1-1 --output VGA-1-1 --auto --primary --left-of HDMI-1sxu7    -1
 #elif [ -z `xrandr --query | grep "HDMI-1-1 connected"` ]; then
 #    xrandr --output eDP-1-1 --auto --left-of HDMI-1-1
 #elif [ -z `xrandr --query | grep "VGA-1-1 connected"` ]; then
