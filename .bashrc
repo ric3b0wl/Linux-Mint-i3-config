@@ -51,8 +51,6 @@ function __ps1_newline_login {
 }
 
 PROMPT_COMMAND='__ps1_newline_login'
-export PS1="\[\033[38;5;129m\]\u\[$(tput sgr0)\]@\[$(tput sgr0)\]\[\033[38;5;196m\]\h\[$(tput sgr0)\]:-\\$ \[$(tput sgr0)\]"
-
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
@@ -71,7 +69,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1="\[\033[38;5;13m\]\u\[$(tput sgr0)\]@\[$(tput sgr0)\]\[\033[38;5;12m\]\h\[$(tput sgr0)\]:>\[$(tput sgr0)\]\[\033[38;5;10m\][\w]\[$(tput sgr0)\]:\\$ \[$(tput sgr0)\]"
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -176,3 +174,5 @@ alias mop='./go/src/github.com/mop-tracker/mop/bin/mop'
 #        --output VGA-1-1 --off \
 #        --output HDMI-1-1 --off\
 #fi
+
+

@@ -27,3 +27,5 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 source "$HOME/.cargo/env"
+
+
