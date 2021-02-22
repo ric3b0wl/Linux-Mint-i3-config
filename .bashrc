@@ -41,7 +41,6 @@ case "$TERM" in
 esac
 
 
-
 function __ps1_newline_login {
   if [[ -z "${PS1_NEWLINE_LOGIN}" ]]; then
     PS1_NEWLINE_LOGIN=true
@@ -98,7 +97,7 @@ fi
 
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
+export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libgtk3-nocsd.so.0
 # some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
@@ -155,8 +154,12 @@ unset __conda_setup
 alias py=python3
 alias pip=pip3
 alias pycharm=./pycharm-2020.3.2/bin/pycharm.sh
+
 alias conda-act='conda activate'
 alias conda-deact='conda deactivate'
+
+alias bgd='bg && disown %1'
+alias open='xdg-open'
 
 alias 'ticker-watch'='watch -n 1 -t -c ./Documents/ticker.sh'
 alias mop='./go/src/github.com/mop-tracker/mop/bin/mop'
@@ -174,5 +177,3 @@ alias mop='./go/src/github.com/mop-tracker/mop/bin/mop'
 #        --output VGA-1-1 --off \
 #        --output HDMI-1-1 --off\
 #fi
-
-

@@ -10,10 +10,10 @@ general {
 
 order += "load"
 order += "cpu_temperature 0"
+order += "volume master"
 order += "ethernet enp0s25"
 order += "wireless wlp3s0"
 order += "battery 1"
-order += "volume master"
 order += "tztime local"
 
 load {
@@ -37,8 +37,8 @@ wireless wlp3s0 {
 }
 
 volume master {
-        format = "<span background='#ebcb8b'> VOL %volume </span>"
-        format_muted = "<span background='#ebcb8b'> Muted </span>"
+        format = "<span background='#ebcb8b'>  %volume </span>"
+        format_muted = "<span background='#ebcb8b'>  Muted </span>"
         device = "default"
         mixer = "Master"
         mixer_idx = 0
@@ -46,13 +46,12 @@ volume master {
 
 battery 1 {
         path = "/sys/class/power_supply/BAT0/uevent"
-	last_full_capacity = true
+	    last_full_capacity = true
         format = "<span background='#a3be8c'>  %status %percentage </span>"
         format_down = "No Battery"
         status_chr = "Charging"
         status_bat = "Battery"
-        status_unk = "Charging"
-        #status_unk = "Unknown"
+        status_unk = "Unknown"
         status_full = "Charged"
         low_threshold = 30
 }
