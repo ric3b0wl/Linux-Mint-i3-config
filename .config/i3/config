@@ -1,0 +1,290 @@
+# set modifier
+set $super Mod4
+set $alt Mod1
+
+# set font
+font pango: System San Francisco Display 9
+
+# Use Mouse+$super to drag floating windows to their wanted position
+floating_modifier $super
+
+#autostart
+exec killall dunst
+exec --no-startup-id dunst -config ~/.config/dunst/dunstrc
+
+exec --no-startup-id hsetroot -center ~/.wallpaper.png
+exec --no-startup-id xsettingsd &
+exec --no-startup-id compton -b
+#exec --no-startup-id xset +fp ~/.fonts/misc/
+
+#exec_always pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo 10 && pactl set-sink-volume alsa_output.pci-0000_00_03.0.hdmi-stereo 10 && $refresh_i3status
+exec_always nm-applet
+exec_always feh --bg-fill ~/Pictures/FuckyouNivdia.jpg
+exec --no-startup-id bash ~/.config/i3/i3-battery-popup-master/i3-battery-popup
+exec_always --no-startup-id xfce4-power-manager
+
+#triple monitor settings
+bindsym $super+Shift+$Alt+Escape exec "xrandr --output eDP-1 --auto --left-of VGA-1 --output VGA-1 --auto --primary --left-of HDMI-1 --output HDMI-1 --auto"
+bindsym $super+Shift+Control+Escape exec "xrandr --output eDP-1 --auto --left-of VGA-1 --output VGA-1 --primary --auto; xrandr --output HDMI-1 --off "
+bindsym $super+Shift+Escape exec "xrandr --output eDP-1 --primary"
+
+#stop mouse hover focus
+focus_follows_mouse no
+
+# start a terminal
+bindsym $super+Return exec i3-sensible-terminal
+bindsym $super+Shift+Return exec cool-retro-term
+
+# start dmenu (a program launcher)
+bindsym $super+Shift+d exec "dmenu_run -nf '#AEAEAE' -nb '#4F3879' -sb '#1A1228' -sf '#FFFFFF' -fn 'System San Francisco Display:size=12' -p 'dmenu prompt &gt;'"
+bindsym $super+d exec rofi -lines 12 -padding 18 -width 60 -location 0 -show drun -sidebar-mode -columns 3 -font 'System San Francisco Display 12'
+
+# common apps keybinds for screenshot
+bindsym Print exec flameshot gui
+bindsym $super+Shift+s exec flameshot gui
+
+bindsym Shift+Print exec flameshot screen
+bindsym $super+Shift+p exec flameshot screen
+
+bindsym Control+Shift+Print exec flameshot config
+
+
+# Moving workspaces between screens
+bindsym $super+Shift+period move workspace to output right
+bindsym $super+Shift+comma move workspace to output left
+
+#bindsym $super+l exec i3lock -i /home/sam/Pictures/lockscreen.png
+
+bindsym $super+Shift+l mode "$mode_system"
+    set $mode_system (l)ock, (s)uspend, (h)ibernate, (r)eboot, l(o)gout, sh(u)tdown
+
+    mode "$mode_system" {
+        bindsym l exec --no-startup-id i3lock -i /home/sam/Pictures/BlancpainGTWorldChallenge.png, mode "default"
+        bindsym s exec --no-startup-id "i3lock -i /home/sam/Pictures/BlancpainGTWorldChallenge.png && systemctl suspend", mode "default"
+        bindsym h exec --no-startup-id "i3lock -i /home/sam/Pictures/BlancpainGTWorldChallenge.png && systemctl hibernate", mode "default"
+        bindsym r exec --no-startup-id reboot, mode "default"
+        bindsym o exec --no-startup-id pkill -KILL -u sam, mode "default"
+        bindsym u exec --no-startup-id "i3-nagbar -t warning -m 'Shutdown, Ru sure?' -b 'Yes' 'shutdown now'", mode "default"
+
+        # exit system mode: "Enter" or "Escape"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+#start application with shortcut
+bindsym $super+Shift+w exec google-chrome-stable;workspace 2;focus
+bindsym $super+Shift+e exec thunar;workspace 3;focus
+bindsym $super+Shift+b exec subl;workspace 4;focus
+bindsym $super+Shift+a exec pavucontrol;focus
+
+#change volume
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo +2% && pactl set-sink-volume alsa_output.pci-0000_00_03.0.hdmi-stereo +2% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo -2% && pactl set-sink-volume alsa_output.pci-0000_00_03.0.hdmi-stereo -2% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute alsa_output.pci-0000_00_1b.0.analog-stereo toggle && pactl set-sink-mute alsa_output.pci-0000_00_03.0.hdmi-stereo toggle && $refresh_i3status
+
+bindsym Shift+XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 9 +2% && $refresh_i3status
+bindsym Shift+XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 9 -2% && $refresh_i3status
+bindsym Shift+XF86AudioMute exec --no-startup-id pactl set-sink-mute 9 toggle && $refresh_i3status
+
+bindsym $super+Control+a exec --no-startup-id pactl set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo # buildin output
+bindsym $super+$alt+a exec --no-startup-id pactl set-default-sink alsa_output.pci-0000_00_03.0.hdmi-stereo # hdmi output 
+
+#brighness
+bindsym $super+Home exec brightnessctl s +10%
+bindsym $super+End exec brightnessctl s 10%-
+
+# music control
+bindsym XF86AudioNext exec mpc next
+bindsym XF86AudioPrev exec mpc prev
+bindsym XF86AudioPlay exec mpc toggle
+bindsym XF86AudioStop exec mpc stop
+
+
+# kill focused window
+bindsym $super+Shift+q kill
+bindsym $alt+F4 kill
+
+# change focus
+bindsym $super+Left focus left
+bindsym $super+Down focus down
+bindsym $super+Up focus up
+bindsym $super+Right focus right
+
+# move focused window
+bindsym $super+Shift+Left move left
+bindsym $super+Shift+Down move down
+bindsym $super+Shift+Up move up
+bindsym $super+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $super+h split h
+
+# split in vertical orientation
+bindsym $super+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $super+f fullscreen toggle
+
+# change container layout split
+bindsym $super+l layout toggle split
+
+# toggle tiling / floating
+bindsym $super+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $super+Shift+space focus mode_toggle
+
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+#set $ws0 " 0: "
+#set $ws1 " 1: "
+#set $ws2 " 2: "
+#set $ws3 " 3: "
+#set $ws4 " 4: "
+#set $ws5 " 5: "
+#set $ws6 " 6: "
+#set $ws7 " 7: "
+#set $ws8 " 8: "
+#set $ws9 " 9: "
+#set $ws10 " 10: "
+
+set $ws0 "0:code"
+set $ws1 "1:term"
+set $ws2 "2:chrome"
+set $ws3 "3:sublime"
+set $ws4 "4:folder1"
+set $ws5 "5:folder2"
+set $ws6 "6:utility"
+set $ws7 "7:media"
+set $ws8 "8:zoom"
+set $ws9 "9:message"
+set $ws10 "10:discord"
+
+
+# switch to workspace
+bindsym $super+Tab workspace next
+bindsym $super+Shift+Tab workspace prev
+
+bindsym $super+grave workspace $ws0
+bindsym $super+1 workspace $ws1
+bindsym $super+2 workspace $ws2
+bindsym $super+3 workspace $ws3
+bindsym $super+4 workspace $ws4
+bindsym $super+5 workspace $ws5
+bindsym $super+6 workspace $ws6
+bindsym $super+7 workspace $ws7
+bindsym $super+8 workspace $ws8
+bindsym $super+9 workspace $ws9
+bindsym $super+0 workspace $ws10
+
+
+# move focused container to workspace
+bindsym $super+Shift+grave move container to workspace number $ws0
+bindsym $super+Shift+1 move container to workspace number $ws1
+bindsym $super+Shift+2 move container to workspace number $ws2
+bindsym $super+Shift+3 move container to workspace number $ws3
+bindsym $super+Shift+4 move container to workspace number $ws4
+bindsym $super+Shift+5 move container to workspace number $ws5
+bindsym $super+Shift+6 move container to workspace number $ws6
+bindsym $super+Shift+7 move container to workspace number $ws7
+bindsym $super+Shift+8 move container to workspace number $ws8
+bindsym $super+Shift+9 move container to workspace number $ws9
+bindsym $super+Shift+0 move container to workspace number $ws10
+
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $super+Shift+r restart
+
+# exit i3
+#bindsym $super+Shift+Contral+Escape exec "i3-nagbar -t warning -m 'Really, exit i3?' -b 'Yes' 'i3-msg exit'"
+
+# resize window (you can also use the mouse for that)
+# px for floating windows, ppt for fullscreen
+mode "resize" {
+        bindsym Left resize shrink width 10 px or 1 ppt
+        bindsym Down resize grow height 10 px or 1 ppt
+        bindsym Up resize shrink height 10 px or 1 ppt
+        bindsym Right resize grow width 10 px or 1 ppt
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+bindsym $super+r mode "resize"
+
+# panel and windows color
+
+# class                 border    bground   text      indicator child_border
+client.focused          #553B81   #34244F   #FFFFFF   #cf0000   #A875FF
+client.focused_inactive #333333   #5F676A   #FFFFFF   #484E50   #5F676A
+client.unfocused        #333333   #222222   #888888   #292D2E   #222222
+client.urgent           #2F343A   #900000   #FFFFFF   #c20000   #c20000
+client.placeholder      #000000   #0C0C0C   #FFFFFF   #000000   #0C0C0C
+client.background       #FFFFFF
+
+exec_always --no-startup-id $HOME/.config/polybar/blocks/launch.sh
+
+#bar {
+#    font pango:DejaVu Sans Mono, FontAwesome 11
+#    position top
+#    status_command i3status
+#    tray_output primary
+#    colors {
+#        background #130A20
+#        statusline #000000
+#        separator  #FFFFFF
+
+#        focused_workspace  #de82ff #6c008c #FFFFFF
+#        active_workspace   #2d9e29 #046300 #FFFFFF
+#        inactive_workspace #333333 #222222 #888888
+#        urgent_workspace   #2F343A #900000 #FFFFFF
+#        binding_mode       #6863FF #0800FF #FFFFFF
+#    }
+#}
+
+# window rules, you can find the window class using xprop
+for_window [class=".*"] border pixel 2
+
+#floating window when launch
+for_window [class=Viewnior|feh|File-roller|Lxappearance|Pavucontrol|Nm-connection-editor|GitHub-Desktop|Gparted|Gpick|steam|steam.exe|lutris] floating enable
+for_window [title="GitHub Desktop"] floating enable
+
+#zoom stuff
+for_window [class=zoom&id=77604715&instance=zoom&title=Settings] floating enable
+for_window [class=zoom&id=77606267&instance=zoom&title=Question-and-Answer] floating enable
+for_window [class=zoom&id=77604473&instance=zoom&title=Chat] floating enable
+
+#assign windows to workspace and focus after launch
+assign [class=cool-retro-term] $ws0
+for_window [class=cool-retro-term] focus
+
+#assign [class=code|jetbrains-pycharm] $ws1
+for_window [class=Code|jetbrains-pycharm] focus
+
+assign [class=Google-chrome] $ws2
+for_window [class=Google-chrome] focus
+
+assign [class=Gedit] $ws3
+for_window [class=Gedit] focus
+
+for_window [class=Thunar|File-roller] focus
+
+assign [title="GitHub Desktop"] $ws6
+for_window [title="GitHub Desktop"] focus
+assign [title=lutris|steam|steam.exe|Blender] $ws6
+for_window [title=lutris|steam|steam.exe|Blender] focus
+
+assign [Class=vlc] $ws7
+for_window [Class=vlc] focus
+assign [Class="Spotify"] $ws7
+for_window [Class="Spotify"] focus
+
+assign [class=zoom] $ws8
+for_window [class=zoom] focus
+
+assign [class=TelegramDesktop] $ws9
+for_window [class=TelegramDesktop] focus
+assign [class="Android Messages"] $ws9
+for_window [class="Android Messages"] focus
+
+assign [class=discord] $ws10
+for_window [class=discord] focus
