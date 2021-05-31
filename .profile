@@ -29,3 +29,5 @@ fi
 source "$HOME/.cargo/env"
 
 
+export CHROME_REMOTE_DESKTOP_DEFAULT_DESKTOP_SIZES=1920×1080
+export PATH=~/.npm-global/bin:$PATH

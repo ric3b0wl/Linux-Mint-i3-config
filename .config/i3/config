@@ -9,19 +9,27 @@ font pango: System San Francisco Display 9
 floating_modifier $super
 
 #autostart
-exec killall dunst
-exec --no-startup-id dunst -config ~/.config/dunst/dunstrc
+#exec_always --no-startup-id hsetroot -center ~/.wallpaper.png
 
-exec --no-startup-id hsetroot -center ~/.wallpaper.png
-exec --no-startup-id xsettingsd &
-exec --no-startup-id compton -b
-#exec --no-startup-id xset +fp ~/.fonts/misc/
+exec_always --no-startup-id killall dunst
+exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc
 
-#exec_always pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo 10 && pactl set-sink-volume alsa_output.pci-0000_00_03.0.hdmi-stereo 10 && $refresh_i3status
-exec_always nm-applet
-exec_always feh --bg-fill ~/Pictures/FuckyouNivdia.jpg
+
+exec_always --no-startup-id killall compton
+exec_always --no-startup-id compton -b
+
+exec_always --no-startup-id unclutter -idle 8 &
+exec_always --no-startup-id i3-battery-popup -n -D -L 35 -l 25 -s '/home/sam/.config/i3/R2D2.wav'
+
+exec --no-startup-id xfce4-power-manager-settings
+exec --no-startup-id nm-applet
+exec --no-startup-id feh --bg-fill ~/Pictures/spa_porsche_rain.jpg
 exec --no-startup-id bash ~/.config/i3/i3-battery-popup-master/i3-battery-popup
-exec_always --no-startup-id xfce4-power-manager
+exec --no-startup-id xfce4-power-manager
+
+#exec_always --no-startup-id xsettingsd &
+#exec --no-startup-id xset +fp ~/.fonts/misc/
+#exec_always pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo 10 && pactl set-sink-volume alsa_output.pci-0000_00_03.0.hdmi-stereo 10 && $refresh_i3status
 
 #triple monitor settings
 bindsym $super+Shift+$Alt+Escape exec "xrandr --output eDP-1 --auto --left-of VGA-1 --output VGA-1 --auto --primary --left-of HDMI-1 --output HDMI-1 --auto"
@@ -32,8 +40,8 @@ bindsym $super+Shift+Escape exec "xrandr --output eDP-1 --primary"
 focus_follows_mouse no
 
 # start a terminal
-bindsym $super+Return exec i3-sensible-terminal
-bindsym $super+Shift+Return exec cool-retro-term
+bindsym $super+Return exec kitty
+bindsym $super+Shift+Return exec i3-sensible-terminal
 
 # start dmenu (a program launcher)
 bindsym $super+Shift+d exec "dmenu_run -nf '#AEAEAE' -nb '#4F3879' -sb '#1A1228' -sf '#FFFFFF' -fn 'System San Francisco Display:size=12' -p 'dmenu prompt &gt;'"
@@ -51,17 +59,18 @@ bindsym Control+Shift+Print exec flameshot config
 
 # Moving workspaces between screens
 bindsym $super+Shift+period move workspace to output right
-bindsym $super+Shift+comma move workspace to output left
+bindsym $super+Shift+common move workspace to output left
+bindsym $super+Shift+apostrophe move workspace to output up
+bindsym $super+Shift+slash move workspace to output down
 
 #bindsym $super+l exec i3lock -i /home/sam/Pictures/lockscreen.png
 
 bindsym $super+Shift+l mode "$mode_system"
-    set $mode_system (l)ock, (s)uspend, (h)ibernate, (r)eboot, l(o)gout, sh(u)tdown
+    set $mode_system (l)ock, (s)uspend, (r)eboot, l(o)gout, sh(u)tdown
 
     mode "$mode_system" {
-        bindsym l exec --no-startup-id i3lock -i /home/sam/Pictures/BlancpainGTWorldChallenge.png, mode "default"
-        bindsym s exec --no-startup-id "i3lock -i /home/sam/Pictures/BlancpainGTWorldChallenge.png && systemctl suspend", mode "default"
-        bindsym h exec --no-startup-id "i3lock -i /home/sam/Pictures/BlancpainGTWorldChallenge.png && systemctl hibernate", mode "default"
+        bindsym l exec --no-startup-id i3lock -i /home/sam/Pictures/1988AyrtonSennaMcLaren.png, mode "default"
+        bindsym s exec --no-startup-id "i3lock -i /home/sam/Pictures/1988AyrtonSennaMcLaren.png && systemctl suspend", mode "default"
         bindsym r exec --no-startup-id reboot, mode "default"
         bindsym o exec --no-startup-id pkill -KILL -u sam, mode "default"
         bindsym u exec --no-startup-id "i3-nagbar -t warning -m 'Shutdown, Ru sure?' -b 'Yes' 'shutdown now'", mode "default"
@@ -75,19 +84,21 @@ bindsym $super+Shift+l mode "$mode_system"
 bindsym $super+Shift+w exec google-chrome-stable;workspace 2;focus
 bindsym $super+Shift+e exec thunar;workspace 3;focus
 bindsym $super+Shift+b exec subl;workspace 4;focus
-bindsym $super+Shift+a exec pavucontrol;focus
+
+#network dmenu
+bindsym $super+Shift+n exec "/home/sam/networkmanager_dmenu"
+
+#sound menu
+bindsym $super+$alt+a exec pavucontrol;focus
+bindsym $super+Shift+a exec "/home/sam/.config/rofi/sound.sh -kb-cancel 'Escape'"
 
 #change volume
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo +2% && pactl set-sink-volume alsa_output.pci-0000_00_03.0.hdmi-stereo +2% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo -2% && pactl set-sink-volume alsa_output.pci-0000_00_03.0.hdmi-stereo -2% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute alsa_output.pci-0000_00_1b.0.analog-stereo toggle && pactl set-sink-mute alsa_output.pci-0000_00_03.0.hdmi-stereo toggle && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 
-bindsym Shift+XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 9 +2% && $refresh_i3status
-bindsym Shift+XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 9 -2% && $refresh_i3status
-bindsym Shift+XF86AudioMute exec --no-startup-id pactl set-sink-mute 9 toggle && $refresh_i3status
-
-bindsym $super+Control+a exec --no-startup-id pactl set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo # buildin output
-bindsym $super+$alt+a exec --no-startup-id pactl set-default-sink alsa_output.pci-0000_00_03.0.hdmi-stereo # hdmi output 
+#bindsym $super+Control+a exec --no-startup-id pactl set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo # buildin output
+#bindsym $super+$alt+a exec --no-startup-id pactl set-default-sink alsa_output.pci-0000_00_03.0.hdmi-stereo # hdmi output 
 
 #brighness
 bindsym $super+Home exec brightnessctl s +10%
@@ -119,6 +130,7 @@ bindsym $super+Shift+Right move right
 # split in horizontal orientation
 bindsym $super+h split h
 
+
 # split in vertical orientation
 bindsym $super+v split v
 
@@ -141,7 +153,7 @@ bindsym $super+Shift+space focus mode_toggle
 #set $ws2 " 2: "
 #set $ws3 " 3: "
 #set $ws4 " 4: "
-#set $ws5 " 5: "
+#set $ws5 " 5: "
 #set $ws6 " 6: "
 #set $ws7 " 7: "
 #set $ws8 " 8: "
@@ -152,8 +164,8 @@ set $ws0 "0:code"
 set $ws1 "1:term"
 set $ws2 "2:chrome"
 set $ws3 "3:sublime"
-set $ws4 "4:folder1"
-set $ws5 "5:folder2"
+set $ws4 "4:folder"
+set $ws5 "5:apps"
 set $ws6 "6:utility"
 set $ws7 "7:media"
 set $ws8 "8:zoom"
@@ -254,8 +266,10 @@ for_window [class=zoom&id=77606267&instance=zoom&title=Question-and-Answer] floa
 for_window [class=zoom&id=77604473&instance=zoom&title=Chat] floating enable
 
 #assign windows to workspace and focus after launch
-assign [class=cool-retro-term] $ws0
-for_window [class=cool-retro-term] focus
+assign [class="VirtualBox Machine"] $ws0
+assign [class="VirtualBox Manager"] $ws0
+for_window [class="VirtualBox Machine"] focus
+for_window [class="VirtualBox Manager"] focus
 
 #assign [class=code|jetbrains-pycharm] $ws1
 for_window [class=Code|jetbrains-pycharm] focus
@@ -266,12 +280,13 @@ for_window [class=Google-chrome] focus
 assign [class=Gedit] $ws3
 for_window [class=Gedit] focus
 
+assign [title=lutris|steam|steam.exe|Blender] $ws5
+for_window [title=lutris|steam|steam.exe|Blender] focus
 for_window [class=Thunar|File-roller] focus
 
 assign [title="GitHub Desktop"] $ws6
 for_window [title="GitHub Desktop"] focus
-assign [title=lutris|steam|steam.exe|Blender] $ws6
-for_window [title=lutris|steam|steam.exe|Blender] focus
+
 
 assign [Class=vlc] $ws7
 for_window [Class=vlc] focus
@@ -288,3 +303,5 @@ for_window [class="Android Messages"] focus
 
 assign [class=discord] $ws10
 for_window [class=discord] focus
+assign [class="slack"] $ws10
+for_window [class="slack"] focus

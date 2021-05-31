@@ -151,9 +151,8 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-alias py=python3
-alias pip=pip3
-alias pycharm=./pycharm-2020.3.2/bin/pycharm.sh
+# alias py=python3
+# alias pip=pip3
 
 alias conda-act='conda activate'
 alias conda-deact='conda deactivate'
@@ -177,3 +176,6 @@ alias mop='./go/src/github.com/mop-tracker/mop/bin/mop'
 #        --output VGA-1-1 --off \
 #        --output HDMI-1-1 --off\
 #fi
+
+source "$HOME/.cargo/env"
+

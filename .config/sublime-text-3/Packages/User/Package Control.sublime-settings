@@ -1,0 +1,23 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"A File Icon",
+		"Agila Theme",
+		"Bash Build System",
+		"i3 wm",
+		"INI",
+		"Material Theme",
+		"Package Control",
+		"SublimeHighlight",
+		"Theme - Cyanide",
+		"Theme - Spacegray"
+	],
+	"repositories":
+	[
+		"https://github.com/n1k0/SublimeHighlight/tree/python3"
+	]
+}
